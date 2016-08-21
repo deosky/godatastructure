@@ -9,6 +9,8 @@ const (
 )
 
 type ElemType int
+
+//Status 1是成功， 0 是失败
 type Status int
 
 type SqList struct {
@@ -60,4 +62,14 @@ func DeleteSqList(l *SqList, pos int) (ElemType, error) {
 	l.Length--
 
 	return elem, nil
+}
+
+//LocateSqElem 在l中找到第一个满足compare()元素的位序,如果不存在则返回0(位置从1开始)
+func LocateSqElem(l *SqList, e ElemType, compare func(e1, e2 ElemType) Status) int {
+	for i := 0; i < l.Length; i++ {
+		if compare(e, l.Elem[i]) == 1 {
+			return i + 1
+		}
+	}
+	return 0
 }
