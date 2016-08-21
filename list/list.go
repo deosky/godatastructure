@@ -5,16 +5,16 @@ const (
 	LISTINCREMENT int = 10
 )
 
-type ElemType interface{}
+type ElemType int
 type Status int
 
-type List struct {
+type SqList struct {
 	Elem     []ElemType
 	Length   int
 	listsize int
 }
 
-func InitList(l *List) Status {
+func InitList(l *SqList) Status {
 	array := [LIST_INT_SIZE]ElemType{}
 	l.Elem = array[:]
 	l.Length = 0
