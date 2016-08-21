@@ -44,3 +44,20 @@ func InsertSqList(l *SqList, pos int, elem ElemType) (Status, error) {
 
 	return 1, nil
 }
+
+//DeleteSqList 删除指定位置的元素(pos从1开始)
+func DeleteSqList(l *SqList, pos int) (ElemType, error) {
+	if pos < 1 || pos > l.Length {
+		return 0, errors.New("无效的删除位置")
+	}
+
+	var elem ElemType
+	elem = l.Elem[pos-1]
+
+	for i := pos; i < l.Length; i++ {
+		l.Elem[i-1] = l.Elem[i]
+	}
+	l.Length--
+
+	return elem, nil
+}
