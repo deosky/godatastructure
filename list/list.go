@@ -38,7 +38,8 @@ func InsertSqList(l *SqList, pos int, elem ElemType) (Status, error) {
 	}
 	if l.Length >= l.Listsize {
 		incrementArray := [LISTINCREMENT]ElemType{}
-		l.Elem = append(l.Elem, incrementArray[:]...)
+		slice := append(l.Elem, incrementArray[:]...)
+		l.Elem = slice[:cap(slice)]
 		l.Listsize = cap(l.Elem)
 	}
 	for i := l.Length - 1; i >= pos-1; i-- {
@@ -113,4 +114,21 @@ func MergeSqList(la, lb SqList) *SqList {
 //算法2.2
 func MergeSqList2(la, lb SqList) *SqList {
 	return MergeSqList(la, lb)
+}
+
+//UnionSqList 将所有在线性表lb中但不在线性表la中的数据插入到la中
+//算法2.1
+func UnionSqList(la, lb *SqList) {
+
+	for i := 0; i < lb.Length; i++ {
+		if LocateSqElem(la, lb.Elem[i], func(e1, e2 ElemType) Status {
+			if e1 != e2 {
+				return Status(0)
+			}
+
+			return Status(1)
+		}) < 1 {
+			InsertSqList(la, la.Length+1, lb.Elem[i])
+		}
+	}
 }
