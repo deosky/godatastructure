@@ -48,7 +48,7 @@ func orderInsertPolyn(p *Polyn, data *Polyn) {
 	q.next = data
 }
 
-//compare 比较两个节点的系数大小,如果是如果node1小于node2则返回-1 等于返回0 大于返回1
+//compare 比较两个节点的指数大小,如果是如果node1小于node2则返回-1 等于返回0 大于返回1
 func compare(node1 *Polyn, node2 *Polyn) int {
 	return node1.expn - node2.expn
 }
