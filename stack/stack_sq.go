@@ -67,3 +67,47 @@ func Conversion(num int) {
 	}
 	fmt.Println()
 }
+
+//getParenthesis 获取配对的字符
+func getParenthesis(c int) int {
+	switch c {
+	case int('('):
+		return int(')')
+	case int('['):
+		return int(']')
+	case int('{'):
+		return int('}')
+	}
+	return 0
+}
+
+//ParenthesisMatching 括号匹配
+func ParenthesisMatching(data string) bool {
+	if len(data)%2 != 0 || len(data) <= 0 {
+		return false
+	}
+
+	stack := &SqStack{}
+	stack.Init()
+
+	for i := 0; i < len(data); i++ {
+		switch data[i] {
+		case '(':
+			fallthrough
+		case '[':
+			fallthrough
+		case '{':
+			stack.Push(int(data[i]))
+		default:
+			e, err := stack.Pop()
+			if err != nil {
+				return false
+			}
+			if getParenthesis(e) != int(data[i]) {
+				return false
+			}
+		}
+	}
+
+	return true
+}
