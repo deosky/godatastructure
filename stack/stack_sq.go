@@ -1,20 +1,29 @@
 package stack
 
-import "errors"
-import "fmt"
+/*
+#include<stdio.h>
+*/
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"os"
+)
 
 const (
 	MAXSIZE int = 100
 )
 
-var (
-	stackArray [MAXSIZE]int
-)
+// var (
+// 	stackArray [MAXSIZE]int
+// )
 
 type SqStack struct {
-	base      int
-	top       int
-	StackSize int
+	base       int
+	top        int
+	StackSize  int
+	stackArray [MAXSIZE]int
 }
 
 //Init 初始化一个栈
@@ -30,7 +39,7 @@ func (s *SqStack) Push(e int) error {
 		return errors.New("栈满")
 	}
 
-	stackArray[s.top] = e
+	s.stackArray[s.top] = e
 	s.top++
 
 	return nil
@@ -42,7 +51,7 @@ func (s *SqStack) Pop() (int, error) {
 		return 0, errors.New("栈空")
 	}
 
-	e := stackArray[s.top-1]
+	e := s.stackArray[s.top-1]
 	s.top--
 
 	return e, nil
@@ -110,4 +119,51 @@ func ParenthesisMatching(data string) bool {
 	}
 
 	return true
+}
+
+//LineEdit 行编辑程序
+func LineEdit() {
+	reader := bufio.NewReader(os.Stdin)
+	stack := &SqStack{}
+	stack.Init()
+	for {
+		c, _ := reader.ReadByte()
+		if c == '\r' || c == '\n' {
+			break
+		}
+		switch c {
+		case '#':
+			stack.Pop()
+		case '@':
+			for {
+				_, err := stack.Pop()
+				if err != nil {
+					return
+				}
+			}
+		default:
+
+			stack.Push(int(c))
+		}
+	}
+
+	stack1 := &SqStack{}
+	stack1.Init()
+	for {
+
+		e, err := stack.Pop()
+
+		if err != nil {
+			break
+		}
+
+		stack1.Push(e)
+	}
+	for {
+		e, err := stack1.Pop()
+		if err != nil {
+			break
+		}
+		fmt.Printf("%c", e)
+	}
 }
