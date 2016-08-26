@@ -57,6 +57,15 @@ func (s *SqStack) Pop() (int, error) {
 	return e, nil
 }
 
+//Peek 查看一下栈顶元素的值
+func (s *SqStack) Peek() (int, error) {
+	if s.top <= s.base {
+		return 0, errors.New("栈空")
+	}
+
+	return s.stackArray[s.top-1], nil
+}
+
 //Conversion 数制转换
 func Conversion(num int) {
 	stack := &SqStack{}
